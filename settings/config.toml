@@ -1,0 +1,15 @@
+Title = 'Cantor Project'
+
+[db]
+[db.mongo]
+[db.mongo.main]
+host = '127.0.0.1'
+port = 27017
+username = 'root'
+password = ''
+
+[db.redis]
+[db.redis.main]
+host = '127.0.0.1'
+port = 6379
+
