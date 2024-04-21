@@ -13,3 +13,11 @@ password = ''
 host = '127.0.0.1'
 port = 6379
 
+[db.mysql]
+[db.mysql.main]
+url = 'mysql+aiomysql://username:password@localhost/cantor'
+echo = true
+pool_size = 10
+max_overflow = 20
+[db.mysql.main.connect_args]
+connect_timeout = 10

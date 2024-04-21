@@ -1,10 +1,9 @@
 from dependency_injector import providers
 
+from cantor.config.base import Container
+from cantor.config.infrastructure.mongo_factory import BookInfrastructureContainer
+from cantor.config.init import container_init
 from cantor.modules.book.application.services import BookService
-
-from ..base import Container
-from ..infrastructure.mongo_factory import BookInfrastructureContainer
-from ..init import container_init
 
 
 @container_init.aotu_wired

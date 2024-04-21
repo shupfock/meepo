@@ -1,12 +1,10 @@
 import pymongo
-from beanie import Document
 
 from cantor.modules.book.domain.entities import Book
-from cantor.seedwork.infrastructure.repository import mongo_model_register
+from cantor.seedwork.infrastructure.repository import BaseMongoMainModel
 
 
-@mongo_model_register.register
-class BookMongoModel(Book, Document):
+class BookMongoModel(Book, BaseMongoMainModel):
     class Settings:
         name = "book"
         indexes = [[("name", pymongo.ASCENDING)]]

@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from cantor.api.common.middlewares import ExceptionHandlerMiddleware, LoggerHandleMiddleware
 from cantor.config.base import Container
-from cantor.config.init import ContainerInitializer, mongo_init, redis_init
+from cantor.config.init import ContainerInitializer, mongo_init, mysql_init, redis_init
 
 
 class App(FastAPI):
@@ -85,6 +85,7 @@ def container_init(app: App) -> None:
 async def init_connect(app: App) -> None:
     await mongo_init(app.base_container)
     await redis_init(app.base_container)
+    await mysql_init(app.base_container)
 
 
 def make_up_app(app: App) -> App:

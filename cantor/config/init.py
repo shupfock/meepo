@@ -2,7 +2,7 @@ import importlib
 from typing import Dict, Optional, Type, TypeVar
 
 from cantor.config.base import Container
-from cantor.seedwork.infrastructure.repository import mongo_model_register
+from cantor.seedwork.infrastructure.repository import BaseMongoMainModel, BaseRDSMainodel
 from cantor.utils.logger import get_logger
 
 T = TypeVar("T", bound=Container)
@@ -17,8 +17,8 @@ def find_mongo_module_to_init() -> None:
 async def mongo_init(container: Container) -> None:
     find_mongo_module_to_init()
     mongo = container.mongo()
-    main_database = mongo.main.get_database(mongo_model_register.database_name)
-    await container.init_odm_model(database=main_database, document_models=mongo_model_register.model_list())
+    main_database = mongo.main.get_database(BaseMongoMainModel.__name__)
+    await container.init_odm_model(database=main_database, document_models=BaseMongoMainModel.__subclasses__())
     logger.info("mogno orm models init")
 
 
@@ -26,6 +26,14 @@ async def redis_init(container: Container) -> None:
     redis = container.redis()
     await redis.main.ping()
     logger.info("redis ping success")
+
+
+async def mysql_init(container: Container) -> None:
+    mysql = container.mysql()
+    async with mysql.main.begin() as conn:
+        await conn.run_sync(BaseRDSMainodel.metadata.create_all)
+        await conn.commit()
+    logger.info("mysql orm models init")
 
 
 class ContainerInitializer:

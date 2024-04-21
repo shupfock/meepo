@@ -1,6 +1,7 @@
-from typing import List, Optional, Type, TypeVar
+from typing import Optional, Type, TypeVar
 
 from beanie import Document, PydanticObjectId
+from sqlalchemy.ext.declarative import declarative_base
 
 from cantor.seedwork.domain.entities import MongoEntity
 from cantor.utils.logger import get_logger
@@ -20,22 +21,17 @@ class GenericMongoRepository:
         return await model.find_one(document_id=PydanticObjectId(element_id))
 
 
-class MongoModelRegister:
-    def __init__(self, database_name: str = "cantor"):
-        self._model_list: List = []
-        self.database_name = database_name
+def declarative_mongo_base(name):
+    class CustomBaseMongoModel(Document):
+        pass
 
-    def register(self, model: Type[T]) -> Type[T]:
-        print(model, "-12312312--")
-        if issubclass(model, Document):
-            self._model_list.append(model)
-            logger.debug(f"model {model.__name__} of database:{self.database_name} registered")
+    CustomBaseMongoModel.__name__ = name
 
-        return model
-
-    def model_list(self) -> List[T]:
-        return self._model_list
+    return CustomBaseMongoModel
 
 
-main_database_name = config.get("db", {}).get("mongo", {}).get("main", {}).get("database", "cantor")
-mongo_model_register = MongoModelRegister(database_name=main_database_name)
+mongo_main_database_name = config.get("db", {}).get("mongo", {}).get("main", {}).get("database", "cantor")
+BaseMongoMainModel = declarative_mongo_base(mongo_main_database_name)
+
+mysql_main_data_name = config.get("db", {}).get("mysql", {}).get("main", {}).get("database", "cantor")
+BaseRDSMainodel = declarative_base(name=mysql_main_data_name)

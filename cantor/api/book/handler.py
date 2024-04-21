@@ -1,9 +1,9 @@
 from fastapi import Query
 
+from cantor.api.shared import APIRouter, dependency
 from cantor.config.modules.book_container import BookServiceContainer
 from cantor.modules.book.application.services import BookService
 
-from ...shared import APIRouter, dependency
 from .models import AddBookRequest, AddBookResponse, GetBookResponse, ListBookResponse
 
 book_router = APIRouter(prefix="/api/book", tags=["book"])

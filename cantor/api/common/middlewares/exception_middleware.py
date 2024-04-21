@@ -1,3 +1,5 @@
+import traceback
+
 from fastapi import HTTPException, Request, Response
 from pydantic import ValidationError
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
@@ -29,9 +31,11 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
             return make_api_exception_response(e)
         except HTTPException as e:
             logger.error(e)
+            traceback.print_exc()
             return make_internal_error_response()
         except Exception as e:
             logger.error(e)
+            traceback.print_exc()
             # todo: alert
             return make_internal_error_response()
 

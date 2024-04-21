@@ -6,6 +6,10 @@ from pydantic_factories import ModelFactory
 
 
 class Entity(BaseModel):
+
+    created: datetime = Field(default_factory=datetime.now, description="创建时间")
+    updated: datetime = Field(default_factory=datetime.now, description="更新时间")
+
     @classmethod
     def generate_fake_data(cls):
         class FakeFactory(ModelFactory):
@@ -17,8 +21,6 @@ class Entity(BaseModel):
 class MongoEntity(Entity):
 
     id: PydanticObjectId = Field(default_factory=PydanticObjectId)
-    created: datetime = Field(default_factory=datetime.now, description="创建时间")
-    updated: datetime = Field(default_factory=datetime.now, description="更新时间")
 
     @property
     def oid(self) -> str:
