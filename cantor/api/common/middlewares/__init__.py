@@ -1,0 +1,2 @@
+from cantor.api.common.middlewares.exception_middleware import ExceptionHandlerMiddleware
+from cantor.api.common.middlewares.logger_middleware import LoggerHandleMiddleware

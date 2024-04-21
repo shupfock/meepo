@@ -2,3 +2,4 @@
 max-line-length = 120
 exclude = .venv, .env
 ignore = E203, W503, W504, E131, E501
+per-file-ignores = __init__.py:F401

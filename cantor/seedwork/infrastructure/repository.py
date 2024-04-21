@@ -23,13 +23,14 @@ class GenericMongoRepository:
 class MongoModelRegister:
     def __init__(self, database_name: str = "cantor"):
         self._model_list: List = []
-        self._db_name = database_name
         self.database_name = database_name
 
     def register(self, model: Type[T]) -> Type[T]:
+        print(model, "-12312312--")
         if issubclass(model, Document):
             self._model_list.append(model)
             logger.debug(f"model {model.__name__} of database:{self.database_name} registered")
+
         return model
 
     def model_list(self) -> List[T]:

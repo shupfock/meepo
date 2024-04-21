@@ -5,6 +5,7 @@ from dependency_injector import containers
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from cantor.api.common.middlewares import ExceptionHandlerMiddleware, LoggerHandleMiddleware
 from cantor.config.base import Container
 from cantor.config.init import ContainerInitializer, mongo_init, redis_init
 
@@ -22,8 +23,8 @@ def find_api_handler_modules(path: str) -> Set[str]:
     for pkg in find_packages(path):
         modules.add(pkg)
         package_path = f"{path}/{pkg.replace('.', '/')}"
-        for info in iter_modules(package_path):
-            if info.ispkg:
+        for info in iter_modules([package_path]):
+            if not info.ispkg:
                 modules.add(f"{pkg}.{info.name}")
 
     return modules
@@ -66,6 +67,8 @@ def auto_include_routers(app: App) -> None:
 
 
 def add_middlewares(app: App) -> None:
+    app.add_middleware(ExceptionHandlerMiddleware)
+    app.add_middleware(LoggerHandleMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins="*",

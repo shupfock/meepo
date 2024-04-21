@@ -31,7 +31,7 @@ async def redis_init(container: Container) -> None:
 class ContainerInitializer:
     map_container_name_instance: Dict[str, Container] = {}
 
-    def aotu_wire(self, container: Type[T]) -> Type[T]:
+    def aotu_wired(self, container: Type[T]) -> Type[T]:
         if issubclass(container, Container):
             container_name = container.__name__
             target_container = self.map_container_name_instance.get(container_name)
