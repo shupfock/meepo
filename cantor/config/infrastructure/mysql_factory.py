@@ -8,5 +8,4 @@ class ShopInfrastructureContainer(Container):
 
     shop_mysql_repo = providers.Factory(
         ShopMysqlRepositoy,
-        session=Container.mysql_session,
     )

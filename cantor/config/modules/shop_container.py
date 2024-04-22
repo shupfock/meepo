@@ -10,5 +10,6 @@ from cantor.modules.shop.application.services import ShopService
 class ShopServiceContainer(Container):
     shop_service = providers.Factory(
         ShopService,
+        session=Container.mysql_session,
         shop_repository=ShopInfrastructureContainer.shop_mysql_repo,
     )
