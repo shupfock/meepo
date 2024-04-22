@@ -75,7 +75,7 @@ class Container(containers.DeclarativeContainer):
     mongo = providers.Singleton(create_mongo_connect_once, config.get("db").get("mongo", {}))
     redis = providers.Singleton(create_redis_connect_once, config.get("db").get("redis", {}))
     mysql = providers.Singleton(create_mysql_connect_once, config.get("db").get("mysql", {}))
-    mysql_session = providers.Factory(
+    mysql_session_maker = providers.Factory(
         async_sessionmaker,
         class_=AsyncSession,
         bind=mysql.provided.main,
