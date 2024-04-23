@@ -161,4 +161,4 @@ cython_debug/
 
 .idea
 
-settings/local_config.toml
+local_config.toml
