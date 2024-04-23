@@ -13,6 +13,7 @@ class ShopStatus(IntEnum):
 class Shop(MysqlEntity):
 
     id: int = Field(description="店铺 ID")
+    num: int = Field(description="店铺号")
     name: str = Field(description="店铺名")
     address: str = Field(description="店铺地址")
     logo: str = Field(description="店铺 logo")

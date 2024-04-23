@@ -3,17 +3,22 @@ from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .entities import Shop
-from .repositoies import ShopRepository
+from .repositoies import ShopCacheRepository, ShopRepository
 
 
 class ShopDomain:
-    def __init__(self, session: AsyncSession, shop_repository: ShopRepository):
+    def __init__(
+        self, session: AsyncSession, shop_repository: ShopRepository, shop_cache_repository: ShopCacheRepository
+    ):
         self.session = session
         self.shop_repository = shop_repository
+        self.shop_cache_repository = shop_cache_repository
 
     async def create_shop(self, name: str, address: str, logo: str) -> Shop:
+        num = await self.shop_cache_repository.gen_shop_num()
         shop = Shop(
             id=0,
+            num=num,
             name=name,
             address=address,
             logo=logo,

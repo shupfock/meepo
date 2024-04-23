@@ -1,10 +1,11 @@
 from typing import Optional
 
+from redis.asyncio import Redis
 from sqlalchemy import Result, Select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..domain.entities import Shop
-from ..domain.repositoies import ShopRepository
+from ..domain.repositoies import ShopCacheRepository, ShopRepository
 from .models import ShopRDSModel
 
 
@@ -27,3 +28,14 @@ class ShopMysqlRepositoy(ShopRepository):
             return None
 
         return Shop.parse_obj(shop_orm.__dict__)
+
+
+class ShopCacheRedisRepository(ShopCacheRepository):
+
+    SHOP_NUM_KEY = "cantor:shop_num"
+
+    def __init__(self, conn: Redis):
+        self.conn = conn
+
+    async def gen_shop_num(self) -> int:
+        return await self.conn.incr(self.SHOP_NUM_KEY)

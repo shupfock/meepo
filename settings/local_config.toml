@@ -16,7 +16,7 @@ port = 6379
 [db.mysql]
 [db.mysql.main]
 url = 'mysql+aiomysql://dev:123456@192.168.1.3:3306/cantor'
-echo = true
+echo = false
 pool_size = 10
 max_overflow = 20
 [db.mysql.main.connect_args]

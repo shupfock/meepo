@@ -7,6 +7,7 @@ class ShopRDSModel(BaseRDSMainodel):
     __tablename__ = "shop"
 
     id = Column(Integer, primary_key=True, index=True)
+    num = Column(Integer)
     created = Column(DateTime)
     updated = Column(DateTime)
     name = Column(String(20))
