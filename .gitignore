@@ -162,3 +162,9 @@ cython_debug/
 .idea
 
 local_config.toml
+
+# Celery
+celerybeat-schedule.*
+
+# isorted
+*.isorted

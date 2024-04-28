@@ -47,3 +47,9 @@ debug:
 
 server:
 	$(BIN_PATH)/uvicorn app.api.main:app --port 5000 --workers 4
+
+task:
+	${ENV_PYTHON} -m celery --app app.task worker --concurrency=1
+
+cron:
+	${ENV_PYTHON} -m  celery -A app.task beat -l INFO
