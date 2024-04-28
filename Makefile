@@ -32,18 +32,18 @@ install:
 
 
 fmt:
-	${ENV_PYTHON} -m isort ./cantor
-	${ENV_PYTHON} -m black ./cantor
+	${ENV_PYTHON} -m isort ./app
+	${ENV_PYTHON} -m black ./app
 
 
 check:
-	${ENV_PYTHON} -m mypy ./cantor
-	${ENV_PYTHON} -m isort ./cantor
-	${ENV_PYTHON} -m black ./cantor
-	${ENV_PYTHON} -m flake8 ./cantor
+	${ENV_PYTHON} -m mypy ./app
+	${ENV_PYTHON} -m isort ./app
+	${ENV_PYTHON} -m black ./app
+	${ENV_PYTHON} -m flake8 ./app
 
 debug:
-	$(BIN_PATH)/uvicorn cantor.api.main:app --reload --port 4399
+	$(BIN_PATH)/uvicorn app.api.main:app --reload --port 4399
 
 server:
-	$(BIN_PATH)/uvicorn cantor.api.main:app --port 5000 --workers 4
+	$(BIN_PATH)/uvicorn app.api.main:app --port 5000 --workers 4

@@ -50,8 +50,6 @@ exclude = '''
   | buck-out
   | build
   | dist
-  | cantor/grpc/invoker/*
-  | cantor/grpc/zhongyan/*
 )/
 '''
 
@@ -64,7 +62,6 @@ plugins = [
 ]
 exclude = [
     'proto',
-    'cantor/grpc',
 ]
 follow_imports = "silent"
 warn_redundant_casts = true
@@ -124,7 +121,6 @@ exclude = [
     "node_modules",
     "venv",
     "proto",
-    "cantor/grpc"
 ]
 per-file-ignores = { }
 
