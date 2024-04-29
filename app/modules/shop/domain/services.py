@@ -1,16 +1,11 @@
 from typing import Optional
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from .entities import Shop
 from .repositoies import ShopCacheRepository, ShopRepository
 
 
 class ShopDomain:
-    def __init__(
-        self, session: AsyncSession, shop_repository: ShopRepository, shop_cache_repository: ShopCacheRepository
-    ):
-        self.session = session
+    def __init__(self, shop_repository: ShopRepository, shop_cache_repository: ShopCacheRepository):
         self.shop_repository = shop_repository
         self.shop_cache_repository = shop_cache_repository
 
@@ -23,7 +18,7 @@ class ShopDomain:
             address=address,
             logo=logo,
         )
-        return await self.shop_repository.insert(self.session, shop)
+        return await self.shop_repository.insert(shop)
 
     async def get_shop_by_id(self, shop_id: int) -> Optional[Shop]:
-        return await self.shop_repository.get_by_id(self.session, shop_id)
+        return await self.shop_repository.get_by_id(shop_id)

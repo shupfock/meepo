@@ -6,6 +6,4 @@ from app.modules.shop.infrastructure.shop_repository import ShopMysqlRepositoy
 
 class ShopInfrastructureContainer(Container):
 
-    shop_mysql_repo = providers.Factory(
-        ShopMysqlRepositoy,
-    )
+    shop_mysql_repo = providers.Factory(ShopMysqlRepositoy, session=Container.mysql.provided.main_session)
