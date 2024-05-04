@@ -1,5 +1,6 @@
 from asyncio import current_task
-from typing import Optional
+from contextlib import asynccontextmanager
+from typing import AsyncIterator, Optional
 
 from beanie import init_beanie
 from dependency_injector import containers, providers
@@ -14,7 +15,10 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+from app.utils.logger import get_logger
 from settings import config as app_config
+
+logger = get_logger()
 
 
 class CantorMongo:
@@ -49,8 +53,8 @@ class CantorMysql:
     def init(self, mysql_config: dict) -> None:
         self._main = create_async_engine(**mysql_config.get("main", {}))
 
-    async def session_factory(self, engine_name: str = "main") -> None:
-        async_session = async_scoped_session(
+    def session_factory(self, engine_name: str = "main") -> async_scoped_session:
+        return async_scoped_session(
             async_sessionmaker(
                 class_=AsyncSession,
                 bind=getattr(self, engine_name),
@@ -58,19 +62,21 @@ class CantorMysql:
             ),
             scopefunc=current_task,
         )
-        async with async_session() as session:
-            setattr(self, f"_{engine_name}_session", session)
 
     @property
     def main(self):
         return self._main
 
-    @property
-    async def main_session(self) -> AsyncSession:
-        if not self._main_session:
-            await self.session_factory()
-        assert self._main_session is not None
-        return self._main_session
+    @asynccontextmanager
+    async def main_session(self) -> AsyncIterator[AsyncSession]:
+        session = self.session_factory()()
+        try:
+            yield session
+        except Exception as e:
+            logger.error(e)
+            await session.rollback()
+        finally:
+            await session.close()
 
 
 def create_mongo_connect_once(mongo_config: dict) -> CantorMongo:

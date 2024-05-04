@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
 
 from ..domain.repositoies import ShopCacheRepository, ShopRepository
 from ..domain.services import ShopDomain
@@ -12,14 +12,14 @@ class ShopService:
         self,
         shop_repository: ShopRepository,
         shop_cache_repository: ShopCacheRepository,
-        session: AsyncSession,
+        session: async_scoped_session[AsyncSession],
     ):
         self.session = session
         self.shop_domain = ShopDomain(shop_repository=shop_repository, shop_cache_repository=shop_cache_repository)
 
     async def create_shop(self, name: str, address: str, logo: str) -> CreateShopData:
-        async with self.session.begin():
-            shop = await self.shop_domain.create_shop(name, address, logo)
+        async with self.session() as session, session.begin():
+            shop = await self.shop_domain.create_shop(session, name, address, logo)
 
             return CreateShopData(shop_id=shop.id)
 

@@ -1,12 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from .entities import Shop
 
 
 class ShopRepository(ABC):
     @abstractmethod
-    async def insert(self, shop: Shop) -> Shop:
+    async def insert(self, session: AsyncSession, shop: Shop) -> Shop:
         raise NotImplementedError
 
     @abstractmethod
