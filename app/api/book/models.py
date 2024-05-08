@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -8,7 +8,7 @@ from app.modules.book.application.response import AddBookData, BookInfo, ListBoo
 class BaseResponse(BaseModel):
     status: int = 200
     status_code: int = 1
-    data: Optional[BaseModel] = BaseModel()
+    data: Optional[Union[dict, BaseModel]] = {}
 
 
 class AddBookRequest(BaseModel):

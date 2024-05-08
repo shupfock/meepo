@@ -36,6 +36,11 @@ async def mysql_init(container: Container) -> None:
     logger.info("mysql orm models init")
 
 
+async def mysql_init_tortoise(container: Container) -> None:
+    tortoise = container.tortoise()
+    await container.init_rdm_model(config=tortoise.main)
+
+
 class ContainerInitializer:
     map_container_name_instance: Dict[str, Container] = {}
 

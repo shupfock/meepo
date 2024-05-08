@@ -31,6 +31,7 @@ def make_api_exception_response(api_exception: APIException | ApplicationExcepti
         err_code=api_exception.err_code,
         err_msg=api_exception.err_msg,
         status_code=api_exception.status_code,
+        data={},
     )
     if hasattr(api_exception, "data"):
         response.data = api_exception.data

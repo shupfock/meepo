@@ -14,6 +14,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+from tortoise import Tortoise
 
 from app.utils.logger import get_logger
 from settings import config as app_config
@@ -110,3 +111,4 @@ class Container(containers.DeclarativeContainer):
     mysql = providers.Singleton(create_mysql_connect_once, config.get("db").get("mysql", {}))
 
     init_odm_model = providers.Callable(init_beanie)
+    init_rdm_model = providers.Callable(Tortoise.init)

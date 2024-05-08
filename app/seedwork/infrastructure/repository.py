@@ -2,6 +2,7 @@ from typing import Optional, Type, TypeVar
 
 from beanie import Document, PydanticObjectId
 from sqlalchemy.ext.declarative import declarative_base
+from tortoise import Model
 
 from app.seedwork.domain.entities import MongoEntity
 from app.utils.logger import get_logger
@@ -30,8 +31,20 @@ def declarative_mongo_base(name):
     return CustomBaseMongoModel
 
 
+def declarative_mysql_base(name):
+    class CustomBaseMysqlModel(Model):
+        pass
+
+    CustomBaseMysqlModel.__name__ = name
+
+    return CustomBaseMysqlModel
+
+
 mongo_main_database_name = config.get("db", {}).get("mongo", {}).get("main", {}).get("database", "cantor")
 BaseMongoMainModel = declarative_mongo_base(mongo_main_database_name)
 
 mysql_main_data_name = config.get("db", {}).get("mysql", {}).get("main", {}).get("database", "cantor")
 BaseRDSMainodel = declarative_base(name=mysql_main_data_name)
+
+mysql_tortoise_data_name = config.get("db", {}).get("mysql", {}).get("tortoise", {}).get("database", "tortoise")
+BaseRDSTortoiseModel = declarative_mysql_base(name=mysql_tortoise_data_name)
