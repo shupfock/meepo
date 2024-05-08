@@ -2,7 +2,6 @@ from datetime import datetime
 
 from beanie import PydanticObjectId
 from pydantic import BaseModel, Field
-from pydantic_factories import ModelFactory
 
 
 class Entity(BaseModel):
@@ -12,6 +11,8 @@ class Entity(BaseModel):
 
     @classmethod
     def generate_fake_data(cls):
+        from pydantic_factories import ModelFactory
+
         class FakeFactory(ModelFactory):
             __model__ = cls
 

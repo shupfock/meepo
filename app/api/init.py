@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.common.middlewares import ExceptionHandlerMiddleware, LoggerHandleMiddleware
 from app.config.base import Container
-from app.config.init import ContainerInitializer, mongo_init, mysql_init, redis_init
+from app.config.init import ContainerInitializer, mongo_init, mysql_init, mysql_tortoise_init, redis_init
 
 
 class App(FastAPI):
@@ -86,6 +86,7 @@ async def init_connect(app: App) -> None:
     await mongo_init(app.base_container)
     await redis_init(app.base_container)
     await mysql_init(app.base_container)
+    await mysql_tortoise_init(app.base_container)
 
 
 def make_up_app(app: App) -> App:

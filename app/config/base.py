@@ -49,10 +49,11 @@ class CantorRedis:
 class CantorMysql:
     def __init__(self):
         self._main: Optional[AsyncEngine] = None
-        self._main_session: Optional[AsyncSession] = None
+        self._tortoise_config: Optional[dict] = None
 
     def init(self, mysql_config: dict) -> None:
         self._main = create_async_engine(**mysql_config.get("main", {}))
+        self._tortoise_config = mysql_config.get("tortoise", {})
 
     def session_factory(self, engine_name: str = "main") -> async_scoped_session:
         return async_scoped_session(
@@ -67,6 +68,10 @@ class CantorMysql:
     @property
     def main(self):
         return self._main
+
+    @property
+    def tortoise(self):
+        return self._tortoise_config
 
     @asynccontextmanager
     async def main_session(self) -> AsyncIterator[AsyncSession]:
@@ -112,3 +117,4 @@ class Container(containers.DeclarativeContainer):
 
     init_odm_model = providers.Callable(init_beanie)
     init_rdm_model = providers.Callable(Tortoise.init)
+    generate_schemas = providers.Callable(Tortoise.generate_schemas)

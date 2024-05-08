@@ -1,9 +1,9 @@
 from sqlalchemy import Column, DateTime, Integer, SmallInteger, String
 
-from app.seedwork.infrastructure.repository import BaseRDSMainodel
+from app.seedwork.infrastructure.repository import BaseRDSMainModel
 
 
-class ShopRDSModel(BaseRDSMainodel):
+class ShopRDSModel(BaseRDSMainModel):
     __tablename__ = "shop"
 
     id = Column(Integer, primary_key=True, index=True)

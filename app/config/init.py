@@ -1,8 +1,10 @@
 import importlib
+import inspect
+import os
 from typing import Dict, Optional, Type, TypeVar
 
 from app.config.base import Container
-from app.seedwork.infrastructure.repository import BaseMongoMainModel, BaseRDSMainodel
+from app.seedwork.infrastructure.repository import BaseMongoMainModel, BaseRDSMainModel, BaseRDSTortoiseModel
 from app.utils.logger import get_logger
 
 T = TypeVar("T", bound=Container)
@@ -31,14 +33,21 @@ async def redis_init(container: Container) -> None:
 async def mysql_init(container: Container) -> None:
     mysql = container.mysql()
     async with mysql.main.begin() as conn:
-        await conn.run_sync(BaseRDSMainodel.metadata.create_all)
+        await conn.run_sync(BaseRDSMainModel.metadata.create_all)
         await conn.commit()
     logger.info("mysql orm models init")
 
 
-async def mysql_init_tortoise(container: Container) -> None:
-    tortoise = container.tortoise()
-    await container.init_rdm_model(config=tortoise.main)
+async def mysql_tortoise_init(container: Container) -> None:
+    mysql = container.mysql()
+    models = set()
+    for sub_model in BaseRDSTortoiseModel.__subclasses__():
+        path = os.path.relpath(inspect.getfile(sub_model))
+        path = path.rstrip(".py").replace("/", ".")
+        models.add(path)
+
+    await container.init_rdm_model(**mysql.tortoise, modules={"models": list(models)})
+    await container.generate_schemas()
 
 
 class ContainerInitializer:
