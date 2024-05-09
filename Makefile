@@ -12,7 +12,7 @@ endif
 # after charset-normalizer 3.0.1 released, poetry install failed, make version as 2.1.1
 init:
 	$(PYTHON) -m venv $(VENV_PATH)
-	$(BIN_PATH)/pip install cffi==1.15.1
+	$(BIN_PATH)/pip install cffi==1.16.0
 	$(BIN_PATH)/pip install charset-normalizer==2.1.1
 	$(BIN_PATH)/pip install poetry==1.2.2
 	$(BIN_PATH)/pip install pre-commit==2.20.0
@@ -20,7 +20,7 @@ init:
 
 
 install:
-	$(BIN_PATH)/pip install cffi==1.15.1
+	$(BIN_PATH)/pip install cffi==1.16.0
 	$(BIN_PATH)/pip install charset-normalizer==2.1.1
 	$(BIN_PATH)/pip install poetry==1.2.2
 	$(BIN_PATH)/poetry config virtualenvs.path $(VENV_PATH)
