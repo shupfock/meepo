@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import List, Optional, cast
 
-from ..domain.entities import Author, AuthorIn
+from ..domain.entities import Author, IAuthor
 from ..domain.repositories import AuthorRepository
 from .models import AuthorModel
 
@@ -8,13 +8,13 @@ from .models import AuthorModel
 class AuthorMysqlRepository(AuthorRepository):
     model = AuthorModel
 
-    async def create(self, author: AuthorIn) -> Author:  # type: ignore
-        return await Author.from_tortoise_orm(await self.model.create(**author.dict()))  # type: ignore
+    async def create(self, author: IAuthor) -> Author:
+        return cast(Author, await Author.from_tortoise_orm(await self.model.create(**author.dict())))
 
-    async def get_by_id(self, author_id: int) -> Optional[Author]:  # type: ignore
+    async def get_by_id(self, author_id: int) -> Optional[Author]:
         author = await self.model.filter(pk=author_id).first()
-        return await Author.from_tortoise_orm(author) if author else None
+        return cast(Author, await Author.from_tortoise_orm(author)) if author else None
 
-    async def list_by_name(self, name: str) -> List[Author]:  # type: ignore
+    async def list_by_name(self, name: str) -> List[Author]:
         authors = self.model.filter(name__contains=name)
-        return await Author.from_queryset(authors)
+        return cast(List[Author], await Author.from_queryset(authors))

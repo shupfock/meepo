@@ -1,6 +1,16 @@
-from tortoise.contrib.pydantic import pydantic_model_creator
+from datetime import datetime
 
-from ..infrastructure.models import AuthorModel as _AuthorModel
+from tortoise.contrib.pydantic import PydanticModel
 
-AuthorIn = pydantic_model_creator(_AuthorModel, name="AuthorIn", exclude_readonly=True)
-Author = pydantic_model_creator(_AuthorModel, name="Author")
+
+class Author(PydanticModel):
+    id: int
+    created: datetime
+    name: str
+    sex: int
+    status: int
+
+
+class IAuthor(PydanticModel):
+    name: str
+    sex: int
