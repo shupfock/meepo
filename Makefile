@@ -32,15 +32,13 @@ install:
 
 
 fmt:
-	${ENV_PYTHON} -m isort ./app
-	${ENV_PYTHON} -m black ./app
+	${ENV_PYTHON} -m ruff format ./app
 
 
 check:
 	${ENV_PYTHON} -m mypy ./app
-	${ENV_PYTHON} -m isort ./app
-	${ENV_PYTHON} -m black ./app
-	${ENV_PYTHON} -m flake8 ./app
+	${ENV_PYTHON} -m ruff format ./app
+	${ENV_PYTHON} -m ruff check ./app
 
 debug:
 	$(BIN_PATH)/uvicorn app.api.main:app --reload --port 4399

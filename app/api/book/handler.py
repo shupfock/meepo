@@ -10,9 +10,7 @@ book_router = APIRouter(prefix="/api/book", tags=["book"])
 
 
 @book_router.post("/add", response_model=AddBookResponse, name="添加一本书")
-async def add_book(
-    req: AddBookRequest, service: BookService = dependency(BookServiceContainer.book_service)
-) -> AddBookResponse:
+async def add_book(req: AddBookRequest, service: BookService = dependency(BookServiceContainer.book_service)) -> AddBookResponse:
     data = await service.add_book(req.name, req.count)
 
     return AddBookResponse(data=data)

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cantor"
+name = "meepo"
 version = "0.1.0"
 description = ""
 authors = ["shupfock <shupfock@foxmail.com>"]
@@ -29,6 +29,7 @@ types-redis = "^4.6.0.20240417"
 sqlalchemy = "2.0.29"
 aiomysql = "0.2.0"
 tortoise-orm = {extras = ["asyncmy"], version = "^0.20.1"}
+ruff = "^0.4.4"
 
 [[tool.poetry.source]]
 name = "ustc"
@@ -94,11 +95,13 @@ build-backend = "poetry.core.masonry.api"
 line-length = 140
 
 # Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F", "I","Q", "W"]
-ignore = [
+lint.select = ["E", "F", "I","Q", "W", "PL"]
+lint.ignore = [
     "E999",
-    "F401"
 ]
+# Unlike Flake8, default to a complexity level of 10.
+lint.mccabe.max-complexity = 10
+lint.per-file-ignores = { }
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -123,12 +126,9 @@ exclude = [
     "venv",
     "proto",
 ]
-per-file-ignores = { }
 
+format.line-ending = "cr-lf"
+format.docstring-code-format = true
 
 # Assume Python 3.11
 target-version = "py311"
-
-[tool.ruff.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
-max-complexity = 10

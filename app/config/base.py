@@ -22,7 +22,7 @@ from settings import config as app_config
 logger = get_logger()
 
 
-class CantorMongo:
+class MeepoMongo:
     def __init__(self):
         self._main: Optional[AgnosticClient] = None
 
@@ -30,11 +30,12 @@ class CantorMongo:
         self._main = AsyncIOMotorClient(**mongo_config.get("main", {}))
 
     @property
-    def main(self):
+    def main(self) -> AgnosticClient:
+        assert self._main is not None
         return self._main
 
 
-class CantorRedis:
+class MeepoRedis:
     def __init__(self):
         self._main: Optional[Redis] = None
 
@@ -42,11 +43,12 @@ class CantorRedis:
         self._main = Redis(**redis_config.get("main", {}))
 
     @property
-    def main(self):
+    def main(self) -> Redis:
+        assert self._main is not None
         return self._main
 
 
-class CantorMysql:
+class MeepoMysql:
     def __init__(self):
         self._main: Optional[AsyncEngine] = None
         self._tortoise_config: Optional[dict] = None
@@ -66,7 +68,8 @@ class CantorMysql:
         )
 
     @property
-    def main(self):
+    def main(self) -> AsyncEngine:
+        assert self._main is not None
         return self._main
 
     @property
@@ -85,22 +88,22 @@ class CantorMysql:
             await session.close()
 
 
-def create_mongo_connect_once(mongo_config: dict) -> CantorMongo:
-    mongo = CantorMongo()
+def create_mongo_connect_once(mongo_config: dict) -> MeepoMongo:
+    mongo = MeepoMongo()
     mongo.init(mongo_config)
 
     return mongo
 
 
-def create_redis_connect_once(redis_config: dict) -> CantorRedis:
-    redis = CantorRedis()
+def create_redis_connect_once(redis_config: dict) -> MeepoRedis:
+    redis = MeepoRedis()
     redis.init(redis_config)
 
     return redis
 
 
-def create_mysql_connect_once(mysql_config: dict) -> CantorMysql:
-    mysql = CantorMysql()
+def create_mysql_connect_once(mysql_config: dict) -> MeepoMysql:
+    mysql = MeepoMysql()
     mysql.init(mysql_config)
 
     return mysql

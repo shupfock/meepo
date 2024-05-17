@@ -1,4 +1,4 @@
-Title = 'Cantor Project'
+Title = 'Meepo Project'
 
 [db]
 [db.mongo]
@@ -15,14 +15,14 @@ port = 6379
 
 [db.mysql]
 [db.mysql.main]
-url = 'mysql+aiomysql://username:password@localhost/cantor'
+url = 'mysql+aiomysql://username:password@localhost/meepo'
 echo = true
 pool_size = 10
 max_overflow = 20
 [db.mysql.main.connect_args]
 connect_timeout = 10
 [db.mysql.tortoise]
-db_url = 'mysql://username:password@localhost/cantor'
+db_url = 'mysql://username:password@localhost/meepo'
 
 [celery]
 broker_url = "redis://localhost:6379/1"

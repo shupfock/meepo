@@ -8,7 +8,6 @@ from app.modules.author.application.services import AuthorService
 
 @container_init.aotu_wired
 class AuthorServiceContainer(Container):
-
     author_service = providers.Factory(
         AuthorService,
         author_repository=AuthorInfrastructureContainer.auth_mysql_repo,

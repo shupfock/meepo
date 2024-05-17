@@ -5,5 +5,4 @@ from app.modules.shop.infrastructure.shop_repository import ShopCacheRedisReposi
 
 
 class ShopRedisInfrastructureContainer(Container):
-
     shop_redis_repo = providers.Singleton(ShopCacheRedisRepository, conn=Container.redis.provided.main)

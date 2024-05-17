@@ -9,7 +9,6 @@ from app.modules.shop.application.services import ShopService
 
 @container_init.aotu_wired
 class ShopServiceContainer(Container):
-
     shop_service = providers.Factory(
         ShopService,
         session=Container.mysql.provided.main_session,

@@ -11,7 +11,7 @@ from settings import config
 logger = get_logger()
 
 
-DEFAULT_EXCHANGE = Exchange(name="cantor", type="topic", durable=True, auto_delete=False)
+DEFAULT_EXCHANGE = Exchange(name="meepo", type="topic", durable=True, auto_delete=False)
 
 
 class CeleryConfig:
@@ -31,14 +31,14 @@ class CeleryConfig:
     task_routes = [
         {
             "app.task.job.*": {
-                "queue": "cantor_celery_job",
-                "routing_key": "cantor_job",
+                "queue": "meepo_celery_job",
+                "routing_key": "meepo_job",
             }
         },
         {
             "app.task.crontab.*": {
-                "queue": "cantor_celery_crontab",
-                "routing_key": "cantor_cron",
+                "queue": "meepo_celery_crontab",
+                "routing_key": "meepo_cron",
             }
         },
     ]
@@ -56,8 +56,8 @@ def init_celery() -> Celery:
     celery_instance.config_from_object(CeleryConfig)
     celery_instance.autodiscover_tasks([])
     celery_instance.conf.task_queues = (
-        Queue("cantor_celery_job", exchange=DEFAULT_EXCHANGE, routing_key="cantor_job"),
-        Queue("cantor_celery_crontab", exchange=DEFAULT_EXCHANGE, routing_key="cantor_cron"),
+        Queue("meepo_celery_job", exchange=DEFAULT_EXCHANGE, routing_key="meepo_job"),
+        Queue("meepo_celery_crontab", exchange=DEFAULT_EXCHANGE, routing_key="meepo_cron"),
     )
 
     return celery_instance

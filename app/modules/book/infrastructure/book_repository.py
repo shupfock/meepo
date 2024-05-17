@@ -30,6 +30,4 @@ class BookMongoRepository(BookRepository, GenericMongoRepository):
     async def delete_book_by_id(self, book_id: str) -> None:
         if not PydanticObjectId.is_valid(book_id):
             return
-        await self.model.find_one(self.model.id == PydanticObjectId(book_id)).update_one(
-            Set({self.model.status: BookStatus.DELETE})
-        )
+        await self.model.find_one(self.model.id == PydanticObjectId(book_id)).update_one(Set({self.model.status: BookStatus.DELETE}))

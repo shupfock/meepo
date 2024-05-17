@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field
 
 
 class Entity(BaseModel):
-
     created: datetime = Field(default_factory=datetime.now, description="创建时间")
     updated: datetime = Field(default_factory=datetime.now, description="更新时间")
 
@@ -20,7 +19,6 @@ class Entity(BaseModel):
 
 
 class MongoEntity(Entity):
-
     id: PydanticObjectId = Field(default_factory=PydanticObjectId)
 
     @property
@@ -29,5 +27,4 @@ class MongoEntity(Entity):
 
 
 class MysqlEntity(Entity):
-
     id: int

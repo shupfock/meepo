@@ -35,8 +35,7 @@ class ShopMysqlRepositoy(ShopRepository):
 
 
 class ShopCacheRedisRepository(ShopCacheRepository):
-
-    SHOP_NUM_KEY = "cantor:shop_num"
+    SHOP_NUM_KEY = "meepo:shop_num"
 
     def __init__(self, conn: Redis):
         self.conn = conn

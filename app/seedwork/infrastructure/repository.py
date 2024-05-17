@@ -43,10 +43,10 @@ def declarative_mysql_base(name):
     return CustomBaseMysqlModel
 
 
-mongo_main_database_name = config.get("db", {}).get("mongo", {}).get("main", {}).get("database", "cantor")
+mongo_main_database_name = config.get("db", {}).get("mongo", {}).get("main", {}).get("database", "meepo")
 BaseMongoMainModel = declarative_mongo_base(mongo_main_database_name)
 
-mysql_main_data_name = config.get("db", {}).get("mysql", {}).get("main", {}).get("database", "cantor")
+mysql_main_data_name = config.get("db", {}).get("mysql", {}).get("main", {}).get("database", "meepo")
 BaseRDSMainModel = declarative_base(name=mysql_main_data_name)
 
 mysql_tortoise_data_name = config.get("db", {}).get("mysql", {}).get("tortoise", {}).get("database", "tortoise")
