@@ -10,7 +10,7 @@
 - 包管理工具：poetry
 - mongo odm: beanie
 - mysql orm: sqlalchemy, tortoise-orm
-- 静态检查：flake8，black，isort
+- 静态检查：ruff
 - 类型检查：mypy
 - 单元测试：pytest
 - 其他工具：pre-commit

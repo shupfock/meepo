@@ -37,24 +37,6 @@ url = "https://pypi.mirrors.ustc.edu.cn/simple/"
 default = true
 secondary = false
 
-[tool.black]
-line-length = 120
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | \.env
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
 [tool.mypy]
 python_version = "3.11"
 ignore_missing_imports = true
@@ -70,7 +52,6 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 check_untyped_defs = true
 implicit_reexport = true
-
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
@@ -90,9 +71,9 @@ testpaths = [
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-
 [tool.ruff]
-line-length = 140
+line-length = 120
+indent-width = 4
 
 # Enable Pyflakes `E` and `F` codes by default.
 lint.select = ["E", "F", "I","Q", "W", "PL"]
@@ -101,7 +82,7 @@ lint.ignore = [
 ]
 # Unlike Flake8, default to a complexity level of 10.
 lint.mccabe.max-complexity = 10
-lint.per-file-ignores = { }
+lint.per-file-ignores = {}
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -129,6 +110,9 @@ exclude = [
 
 format.line-ending = "cr-lf"
 format.docstring-code-format = true
+format.quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+format.indent-style = "space"
 
 # Assume Python 3.11
 target-version = "py311"

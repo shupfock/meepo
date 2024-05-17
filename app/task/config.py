@@ -68,10 +68,11 @@ def config_db(**kwargs: dict) -> None:
     logger.info("celery instance init")
     asyncio.set_event_loop(asyncio.new_event_loop())
     from app.config.base import Container
-    from app.config.init import mongo_init, mysql_init
+    from app.config.init import mongo_init, mysql_init, mysql_tortoise_init
 
     # 链接初始化
     container = Container()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(mongo_init(container))
     loop.run_until_complete(mysql_init(container))
+    loop.run_until_complete(mysql_tortoise_init(container))
